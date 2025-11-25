@@ -14,6 +14,7 @@ type WeatherResponse = {
 
 export default async function getWeather() {
   const { name, country, lat, lon } = await getLocation();
+
   const res = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,wind_speed_10m,relative_humidity_2m,apparent_temperature`,
   );
@@ -24,10 +25,10 @@ export default async function getWeather() {
   return {
     name,
     country,
-    precipitation: current.precipitation,
-    wind_speed: current.wind_speed_10m,
-    relative_humidity: current.relative_humidity_2m,
-    apparent_temperature: current.apparent_temperature,
-    temperature: current.temperature_2m,
+    precipitation: current?.precipitation,
+    wind_speed: current?.wind_speed_10m,
+    relative_humidity: current?.relative_humidity_2m,
+    apparent_temperature: current?.apparent_temperature,
+    temperature: current?.temperature_2m,
   };
 }

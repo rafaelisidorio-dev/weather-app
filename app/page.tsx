@@ -17,7 +17,7 @@ export default async function Home() {
       <Header />
 
       <h1>
-        {name}, {country}
+        Location: {name}, {country}
       </h1>
 
       <h1>{temperature}°</h1>

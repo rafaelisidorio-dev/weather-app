@@ -1,6 +1,7 @@
 import getWeather from "./api/weather";
 import Header from "@/components/layout/Header";
 
+// Home component
 export default async function Home() {
   const {
     name,

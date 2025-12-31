@@ -1,4 +1,13 @@
-import getLocation from "./location";
+type GeoResult = {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+};
+
+type GeoResponse = {
+  results: GeoResult[];
+};
 
 type Weather = {
   temperature_2m: number;
@@ -12,7 +21,22 @@ type WeatherResponse = {
   current: Weather;
 };
 
-export default async function getWeather() {
+export async function getLocation() {
+  const res = await fetch(
+    "https://geocoding-api.open-meteo.com/v1/search?name=rio"
+  );
+  const data: GeoResponse = await res.json();
+  const result: GeoResult = data.results[0];
+
+  return {
+    name: result?.name || "",
+    country: result?.country,
+    lat: result?.latitude,
+    lon: result?.longitude,
+  };
+}
+
+export async function getWeather() {
   const { name, country, lat, lon } = await getLocation();
 
   const res = await fetch(
@@ -21,6 +45,8 @@ export default async function getWeather() {
 
   const data: WeatherResponse = await res.json();
   const current: Weather = data.current;
+
+  console.log(current)
 
   return {
     name,

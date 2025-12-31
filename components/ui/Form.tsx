@@ -2,19 +2,23 @@
 
 import IconSearch from "@/public/icon-search.svg";
 import Image from "next/image";
-import { FormEvent, ChangeEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 
-export default function Form() {
-  const [cityName, setCityName] = useState("");
+interface FormProps {
+  handleSearch(searchTerm: string): void;
+}
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+export default function Form({ handleSearch }: FormProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("form submitted");
+    handleSearch(searchTerm);
   }
 
   return (
     <form
-      onSubmit={handleFormSubmit}
+      onSubmit={handleSubmit}
       className="flex flex-col sm:flex-row gap-4 w-[600px]"
     >
       <div className="relative flex flex-1 items-center gap-4 bg-cards py-4 px-6 rounded-2xl hover:cursor-pointer focus-within:outline-offset-4 focus-within:outline-2 focus-within:outline-inherit">
@@ -22,17 +26,13 @@ export default function Form() {
         <input
           className="outline-none"
           type="text"
+          value={searchTerm}
           placeholder="Search for a place..."
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setCityName(event.target.value)
-          }
+          onChange={(event) => setSearchTerm(event.target.value)}
         />
       </div>
       <style>{"input::placeholder { color: inherit }"}</style>
-      <button
-        onClick={() => console.log(`${cityName}`)}
-        className="w-full sm:w-28 bg-[#4656d8] py-4 px-6 rounded-2xl hover:cursor-pointer hover:bg-[#2c1a9d] focus-within:outline-offset-4 focus-within:outline-2 focus-within:outline-[#4656d8]"
-      >
+      <button className="w-full sm:w-28 bg-[#4656d8] py-4 px-6 rounded-2xl hover:cursor-pointer hover:bg-[#2c1a9d] focus-within:outline-offset-4 focus-within:outline-2 focus-within:outline-[#4656d8]">
         Search
       </button>
     </form>

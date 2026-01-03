@@ -1,19 +1,20 @@
 "use client";
 
 import Header from "@/components/layout/Header";
-import { bricolageGrotesque } from "./layout";
 import Form from "@/components/ui/Form";
+
+import { bricolageGrotesque } from "./layout";
 import { fetchLocationData, fetchWeatherData } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
-export type GeoResponse = {
+type GeoResponse = {
   name: string;
   country: string;
   latitude: number;
   longitude: number;
 };
 
-export type WeatherResponse = {
+type WeatherResponse = {
   current: {
     temperature_2m: number;
     precipitation: number;
@@ -57,7 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     loadWeatherData();
-  }, [location]);
+  });
 
   return (
     <div className="min-h-screen px-4 sm:px-28">

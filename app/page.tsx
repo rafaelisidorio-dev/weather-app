@@ -3,12 +3,25 @@
 import Header from "@/components/layout/Header";
 import { bricolageGrotesque } from "./layout";
 import Form from "@/components/ui/Form";
-import {
-  fetchLocationData,
-  fetchWeatherData,
-  WeatherResponse,
-} from "@/lib/utils";
+import { fetchLocationData, fetchWeatherData } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
+export type GeoResponse = {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type WeatherResponse = {
+  current: {
+    temperature_2m: number;
+    precipitation: number;
+    wind_speed_10m: number;
+    relative_humidity_2m: number;
+    apparent_temperature: number;
+  };
+};
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null);
@@ -20,7 +33,8 @@ export default function Home() {
 
   async function handleSearch(searchTerm: string) {
     try {
-      const locationData = await fetchLocationData(searchTerm);
+      const locationData: GeoResponse[] = await fetchLocationData(searchTerm);
+      console.log(locationData);
 
       setLocation({
         name: `${locationData[0].name}, ${locationData[0].country}`,

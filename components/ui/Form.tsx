@@ -2,6 +2,7 @@
 
 import IconSearch from "@/public/icon-search.svg";
 import Image from "next/image";
+
 import { FormEvent, useState } from "react";
 
 interface FormProps {

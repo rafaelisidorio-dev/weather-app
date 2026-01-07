@@ -2,10 +2,13 @@
 
 import Header from "@/components/layout/Header";
 import Form from "@/components/ui/Form";
+import IconLoading from "@/public/icon-loading.svg";
 
 import { bricolageGrotesque } from "./layout";
 import { fetchLocationData, fetchWeatherData } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
+import Image from "next/image";
 
 type GeoResponse = {
   name: string;
@@ -25,6 +28,7 @@ type WeatherResponse = {
 };
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null);
   const [location, setLocation] = useState({
     name: "Campinas, São Paulo",
@@ -48,17 +52,20 @@ export default function Home() {
   }
 
   async function loadWeatherData() {
+    setLoading(true);
     try {
       const data = await fetchWeatherData(location.lat, location.lon);
       setWeatherData(data);
     } catch (error) {
       console.error("Error fetching weather data:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
     loadWeatherData();
-  });
+  }, [location]);
 
   return (
     <div className="min-h-screen px-4 sm:px-28">
@@ -76,15 +83,21 @@ export default function Home() {
         </div>
       </div>
 
-      <main>
-        <h1>Location: {location.name}</h1>
+      {loading ? (
+        <div>
+          <Image src={IconLoading} alt="Icon Loading" />
+        </div>
+      ) : (
+        <main>
+          <h1>Location: {location.name}</h1>
 
-        <h1>Temperature: {weatherData?.current.temperature_2m} °C</h1>
-        <h1>Feels like: {weatherData?.current.apparent_temperature} °C</h1>
-        <h1>Humidity: {weatherData?.current.relative_humidity_2m} %</h1>
-        <h1>Wind: {weatherData?.current.wind_speed_10m} km/h </h1>
-        <h1>Precipitation: {weatherData?.current.precipitation} mm</h1>
-      </main>
+          <h1>Temperature: {weatherData?.current.temperature_2m} °C</h1>
+          <h1>Feels like: {weatherData?.current.apparent_temperature} °C</h1>
+          <h1>Humidity: {weatherData?.current.relative_humidity_2m} %</h1>
+          <h1>Wind: {weatherData?.current.wind_speed_10m} km/h </h1>
+          <h1>Precipitation: {weatherData?.current.precipitation} mm</h1>
+        </main>
+      )}
     </div>
   );
 }

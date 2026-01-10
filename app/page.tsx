@@ -9,23 +9,7 @@ import { fetchLocationData, fetchWeatherData } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
-
-type GeoResponse = {
-  name: string;
-  country: string;
-  latitude: number;
-  longitude: number;
-};
-
-type WeatherResponse = {
-  current: {
-    temperature_2m: number;
-    precipitation: number;
-    wind_speed_10m: number;
-    relative_humidity_2m: number;
-    apparent_temperature: number;
-  };
-};
+import { GeoResponse, WeatherResponse } from "@/@types/api";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);

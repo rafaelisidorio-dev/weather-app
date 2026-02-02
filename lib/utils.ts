@@ -1,5 +1,3 @@
-"use client";
-
 export async function fetchLocationData(query: string) {
   const response = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}`,

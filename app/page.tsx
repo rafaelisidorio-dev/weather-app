@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { GeoResponse, WeatherResponse } from "@/@types/api";
+import Main from "@/components/layout/Main";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -50,17 +51,16 @@ export default function Home() {
 
   useEffect(() => {
     loadWeatherData();
-  }, [location]);
+  }, [location.name]);
 
   return (
     <div className="min-h-screen px-4 sm:px-28">
       <Header />
-
       <div>
         <h1
           className={`${bricolageGrotesque.className} text-center text-5xl/15 sm:text-5xl`}
         >
-          How's the sky looking today?
+          How&apos;s the sky looking today?
         </h1>
 
         <div className="flex justify-center mt-18 mb-12">
@@ -73,15 +73,7 @@ export default function Home() {
           <Image src={IconLoading} alt="Icon Loading" />
         </div>
       ) : (
-        <main>
-          <h1>Location: {location.name}</h1>
-
-          <h1>Temperature: {weatherData?.current.temperature_2m} °C</h1>
-          <h1>Feels like: {weatherData?.current.apparent_temperature} °C</h1>
-          <h1>Humidity: {weatherData?.current.relative_humidity_2m} %</h1>
-          <h1>Wind: {weatherData?.current.wind_speed_10m} km/h </h1>
-          <h1>Precipitation: {weatherData?.current.precipitation} mm</h1>
-        </main>
+        <Main location={location?.name} weatherData={weatherData} />
       )}
     </div>
   );
